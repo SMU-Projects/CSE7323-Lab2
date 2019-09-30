@@ -1,9 +1,15 @@
-# Sink or Swim iOS Interface Building
+# Audio Filtering, the FFT, and Doppler Shifts
 
-## Assignment One 
-You have free reign to create an application that manages some type of mutable information. That means that the data displayed by the app is expected to change. The data you load and display can come from anywhere and you can do whatever you want with it. For instance, you might display images from online somewhere, you might display stock exchange information, or you might display a information from twitter--or movies, or books, or amazon. It can be whatever information you want to display (really, have fun with it), as long as you use the interface elements as described below. You will need to get creative in order to incorporate ALL the design elements below. That is okay, some parts of the app will just be weird (but not all the app).
-
-Create an iOS application in XCode that uses the storyboard and a TableViewController to load different views based on the data your are loading. The TableViewController must implement three different types of cells and load them dynamically (i.e., you cannot use a static table). View navigation can be hierarchical in any way you want--as long as it makes sense for the interface and the data you are displaying. When loading a new view controller your main view controller should hand off information to the controller that is getting created. The application should make use of the following design elements in one or more of the views:
+#### Complete Both Modules of the Assignment:
+#### Module A 
+Create an iOS application using the example template that:
+- Reads from the microphone
+- Takes an FFT of the incoming audio stream
+- Displays the frequency of the two loudest tones within (+-3Hz) accuracy 
+	- Have a way to "lock in" the last frequencies detected on the display
+-Is able to distinguish tones at least 50Hz apart, lasting for 200ms or more
+- An idea for Exceptional Credit: recognize two tones played on a piano (down to one half step apart) and report them by letter (i.e., A4, A#4). Must work at note A2 and above. Note: this is harder than just identifying two perfect sine waves!!
+- Exceptional Credit Idea (<strong>required for 7000 level students</strong>): make the FFT analysis follow the model-view-controller framework more closely. That is, make the model an analyzer that is not implemented in the View Controller (i.e., an "analyzer model"). All audio saving and analysis should happen in the model only, not the view controller. The audio analysis should be performed using blocks on a serial queue. Once analysis is complete, a view controller can ask the model for FFT frames, and the view controller can display those frames however it wants. You should design functions for accessing the result of the analyzer such that memory and computation time are reasonable. 
 
 ### Required for 5000 and 7000 Students:
 
