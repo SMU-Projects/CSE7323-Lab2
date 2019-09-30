@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="l6F-39-ipj">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ehO-xs-thx">
+                                <rect key="frame" x="146" y="356" width="122" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Module B"/>
+                                <connections>
+                                    <segue destination="C9k-IL-jbm" kind="show" id="Jvy-IV-OpG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDa-aC-xGs">
+                                <rect key="frame" x="145.5" y="208" width="123" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Module A"/>
+                                <connections>
+                                    <segue destination="Ofk-l4-8in" kind="show" id="gDi-eh-tQs"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="fDa-aC-xGs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GrQ-1D-WHw"/>
+                            <constraint firstItem="ehO-xs-thx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IFO-gb-PlS"/>
+                            <constraint firstItem="fDa-aC-xGs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="120" id="iQQ-3o-ZGd"/>
+                            <constraint firstItem="ehO-xs-thx" firstAttribute="top" secondItem="fDa-aC-xGs" secondAttribute="bottom" constant="100" id="mC3-TH-UZb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hUf-aE-6xZ">
+                        <barButtonItem key="backBarButtonItem" title="Home" id="EVg-EU-dRA"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.8260869565217" y="135.9375"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9Ad-oA-t3M">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="l6F-39-ipj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vm6-30-Qj6">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="a4D-6I-n79"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JP1-xs-eLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="135.9375"/>
+        </scene>
+        <!--Module A-->
+        <scene sceneID="xqA-D9-YlH">
+            <objects>
+                <viewController title="Module A" id="Ofk-l4-8in" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z48-ou-668">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="bmw-oS-wfo"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Module A" id="1OH-Me-x9b"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n38-dF-naT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2055" y="-217"/>
+        </scene>
+        <!--Module B-->
+        <scene sceneID="zpC-AH-Zpk">
+            <objects>
+                <viewController title="Module B" id="C9k-IL-jbm" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QHz-vC-YAk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="18h-z7-aWg"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Module B" id="eso-Mu-XwB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fgZ-O8-70f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2055" y="490"/>
+        </scene>
+    </scenes>
+</document>
