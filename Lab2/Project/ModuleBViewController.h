@@ -6,12 +6,18 @@
 //  Copyright © 2019 Will Lacey. All rights reserved.
 //
 
+// Class Imports
 #import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+// DSPUtils Imports
+#import "CircularBuffer.h"
+#import "FFTHelper.h"
+#import "Novocaine.h"
 
-@interface ModuleBViewController : UIViewController
+// Graphing Imports
+#import "SMUGraphHelper.h"
+
+@interface ModuleBViewController : GLKViewController
 
 @end
-
-NS_ASSUME_NONNULL_END

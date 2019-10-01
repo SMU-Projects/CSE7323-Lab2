@@ -88,7 +88,7 @@
         <scene sceneID="zpC-AH-Zpk">
             <objects>
                 <viewController title="Module B" id="C9k-IL-jbm" customClass="ModuleBViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QHz-vC-YAk">
+                    <view key="view" contentMode="scaleToFill" id="QHz-vC-YAk" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
