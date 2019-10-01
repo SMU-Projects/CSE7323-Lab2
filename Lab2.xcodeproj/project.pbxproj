@@ -20,7 +20,6 @@
 		B6976E3B2343FA5C0098A0CF /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E332343FA5C0098A0CF /* Novocaine.m */; };
 		B6976E3C2343FA5C0098A0CF /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E372343FA5C0098A0CF /* FFTHelper.m */; };
 		B6976E3D2343FA5C0098A0CF /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E382343FA5C0098A0CF /* CircularBuffer.m */; };
-		B6976E3E2343FA5C0098A0CF /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E392343FA5C0098A0CF /* AudioFileReader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,8 +47,6 @@
 		B6976E362343FA5C0098A0CF /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
 		B6976E372343FA5C0098A0CF /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
 		B6976E382343FA5C0098A0CF /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularBuffer.m; sourceTree = "<group>"; };
-		B6976E392343FA5C0098A0CF /* AudioFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioFileReader.m; sourceTree = "<group>"; };
-		B6976E3A2343FA5C0098A0CF /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioFileReader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +89,6 @@
 		B6976E1A2343F4F70098A0CF /* DSPUtils */ = {
 			isa = PBXGroup;
 			children = (
-				B6976E3A2343FA5C0098A0CF /* AudioFileReader.h */,
-				B6976E392343FA5C0098A0CF /* AudioFileReader.m */,
 				B6976E342343FA5C0098A0CF /* CircularBuffer.h */,
 				B6976E382343FA5C0098A0CF /* CircularBuffer.m */,
 				B6976E362343FA5C0098A0CF /* FFTHelper.h */,
@@ -213,7 +208,6 @@
 				B6262905233ACB1C00F2BCD3 /* main.m in Sources */,
 				B6976E3C2343FA5C0098A0CF /* FFTHelper.m in Sources */,
 				B6976E322343FA530098A0CF /* SMUGraphHelper.m in Sources */,
-				B6976E3E2343FA5C0098A0CF /* AudioFileReader.m in Sources */,
 				B6976E132343F4420098A0CF /* ModuleAViewController.m in Sources */,
 				B62628F7233ACB1B00F2BCD3 /* SceneDelegate.m in Sources */,
 			);

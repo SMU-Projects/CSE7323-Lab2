@@ -72,7 +72,7 @@
         <scene sceneID="xqA-D9-YlH">
             <objects>
                 <viewController title="Module A" id="Ofk-l4-8in" customClass="ModuleAViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Z48-ou-668">
+                    <view key="view" contentMode="scaleToFill" id="Z48-ou-668" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -82,7 +82,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n38-dF-naT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2055" y="-217"/>
+            <point key="canvasLocation" x="2053.6231884057975" y="-217.63392857142856"/>
         </scene>
         <!--Module B-->
         <scene sceneID="zpC-AH-Zpk">
