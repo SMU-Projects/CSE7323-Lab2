@@ -14,6 +14,13 @@
 		B62628FF233ACB1C00F2BCD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62628FE233ACB1C00F2BCD3 /* Assets.xcassets */; };
 		B6262902233ACB1C00F2BCD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6262900233ACB1C00F2BCD3 /* LaunchScreen.storyboard */; };
 		B6262905233ACB1C00F2BCD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6262904233ACB1C00F2BCD3 /* main.m */; };
+		B6976E132343F4420098A0CF /* ModuleAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E122343F4420098A0CF /* ModuleAViewController.m */; };
+		B6976E2B2343F7CC0098A0CF /* ModuleBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E2A2343F7CC0098A0CF /* ModuleBViewController.m */; };
+		B6976E322343FA530098A0CF /* SMUGraphHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E312343FA530098A0CF /* SMUGraphHelper.m */; };
+		B6976E3B2343FA5C0098A0CF /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E332343FA5C0098A0CF /* Novocaine.m */; };
+		B6976E3C2343FA5C0098A0CF /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E372343FA5C0098A0CF /* FFTHelper.m */; };
+		B6976E3D2343FA5C0098A0CF /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E382343FA5C0098A0CF /* CircularBuffer.m */; };
+		B6976E3E2343FA5C0098A0CF /* AudioFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E392343FA5C0098A0CF /* AudioFileReader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +36,20 @@
 		B6262901233ACB1C00F2BCD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6262903233ACB1C00F2BCD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6262904233ACB1C00F2BCD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B6976E112343F4420098A0CF /* ModuleAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleAViewController.h; sourceTree = "<group>"; };
+		B6976E122343F4420098A0CF /* ModuleAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModuleAViewController.m; sourceTree = "<group>"; };
+		B6976E292343F7CC0098A0CF /* ModuleBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleBViewController.h; sourceTree = "<group>"; };
+		B6976E2A2343F7CC0098A0CF /* ModuleBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModuleBViewController.m; sourceTree = "<group>"; };
+		B6976E302343FA530098A0CF /* SMUGraphHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMUGraphHelper.h; sourceTree = "<group>"; };
+		B6976E312343FA530098A0CF /* SMUGraphHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMUGraphHelper.m; sourceTree = "<group>"; };
+		B6976E332343FA5C0098A0CF /* Novocaine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Novocaine.m; sourceTree = "<group>"; };
+		B6976E342343FA5C0098A0CF /* CircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularBuffer.h; sourceTree = "<group>"; };
+		B6976E352343FA5C0098A0CF /* Novocaine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Novocaine.h; sourceTree = "<group>"; };
+		B6976E362343FA5C0098A0CF /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
+		B6976E372343FA5C0098A0CF /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
+		B6976E382343FA5C0098A0CF /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularBuffer.m; sourceTree = "<group>"; };
+		B6976E392343FA5C0098A0CF /* AudioFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioFileReader.m; sourceTree = "<group>"; };
+		B6976E3A2343FA5C0098A0CF /* AudioFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioFileReader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +82,31 @@
 		B62628F1233ACB1B00F2BCD3 /* Lab2 */ = {
 			isa = PBXGroup;
 			children = (
+				B6976E1A2343F4F70098A0CF /* DSPUtils */,
+				B6976E2C2343F96D0098A0CF /* GraphingSupport */,
+				B6976E1C2343F5410098A0CF /* Project */,
+			);
+			path = Lab2;
+			sourceTree = "<group>";
+		};
+		B6976E1A2343F4F70098A0CF /* DSPUtils */ = {
+			isa = PBXGroup;
+			children = (
+				B6976E3A2343FA5C0098A0CF /* AudioFileReader.h */,
+				B6976E392343FA5C0098A0CF /* AudioFileReader.m */,
+				B6976E342343FA5C0098A0CF /* CircularBuffer.h */,
+				B6976E382343FA5C0098A0CF /* CircularBuffer.m */,
+				B6976E362343FA5C0098A0CF /* FFTHelper.h */,
+				B6976E372343FA5C0098A0CF /* FFTHelper.m */,
+				B6976E352343FA5C0098A0CF /* Novocaine.h */,
+				B6976E332343FA5C0098A0CF /* Novocaine.m */,
+			);
+			path = DSPUtils;
+			sourceTree = "<group>";
+		};
+		B6976E1C2343F5410098A0CF /* Project */ = {
+			isa = PBXGroup;
+			children = (
 				B6262900233ACB1C00F2BCD3 /* LaunchScreen.storyboard */,
 				B62628FB233ACB1B00F2BCD3 /* Main.storyboard */,
 				B6262903233ACB1C00F2BCD3 /* Info.plist */,
@@ -71,9 +117,22 @@
 				B62628F6233ACB1B00F2BCD3 /* SceneDelegate.m */,
 				B62628F8233ACB1B00F2BCD3 /* ViewController.h */,
 				B62628F9233ACB1B00F2BCD3 /* ViewController.m */,
+				B6976E112343F4420098A0CF /* ModuleAViewController.h */,
+				B6976E122343F4420098A0CF /* ModuleAViewController.m */,
+				B6976E292343F7CC0098A0CF /* ModuleBViewController.h */,
+				B6976E2A2343F7CC0098A0CF /* ModuleBViewController.m */,
 				B62628FE233ACB1C00F2BCD3 /* Assets.xcassets */,
 			);
-			path = Lab2;
+			path = Project;
+			sourceTree = "<group>";
+		};
+		B6976E2C2343F96D0098A0CF /* GraphingSupport */ = {
+			isa = PBXGroup;
+			children = (
+				B6976E302343FA530098A0CF /* SMUGraphHelper.h */,
+				B6976E312343FA530098A0CF /* SMUGraphHelper.m */,
+			);
+			path = GraphingSupport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,9 +205,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6976E3D2343FA5C0098A0CF /* CircularBuffer.m in Sources */,
+				B6976E3B2343FA5C0098A0CF /* Novocaine.m in Sources */,
 				B62628FA233ACB1B00F2BCD3 /* ViewController.m in Sources */,
 				B62628F4233ACB1B00F2BCD3 /* AppDelegate.m in Sources */,
+				B6976E2B2343F7CC0098A0CF /* ModuleBViewController.m in Sources */,
 				B6262905233ACB1C00F2BCD3 /* main.m in Sources */,
+				B6976E3C2343FA5C0098A0CF /* FFTHelper.m in Sources */,
+				B6976E322343FA530098A0CF /* SMUGraphHelper.m in Sources */,
+				B6976E3E2343FA5C0098A0CF /* AudioFileReader.m in Sources */,
+				B6976E132343F4420098A0CF /* ModuleAViewController.m in Sources */,
 				B62628F7233ACB1B00F2BCD3 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,7 +357,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F69WJ27LN4;
-				INFOPLIST_FILE = Lab2/Info.plist;
+				INFOPLIST_FILE = Lab2/Project/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -309,7 +375,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F69WJ27LN4;
-				INFOPLIST_FILE = Lab2/Info.plist;
+				INFOPLIST_FILE = Lab2/Project/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

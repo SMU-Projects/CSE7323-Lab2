@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="l6F-39-ipj">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -70,7 +71,7 @@
         <!--Module A-->
         <scene sceneID="xqA-D9-YlH">
             <objects>
-                <viewController title="Module A" id="Ofk-l4-8in" sceneMemberID="viewController">
+                <viewController title="Module A" id="Ofk-l4-8in" customClass="ModuleAViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z48-ou-668">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +87,7 @@
         <!--Module B-->
         <scene sceneID="zpC-AH-Zpk">
             <objects>
-                <viewController title="Module B" id="C9k-IL-jbm" sceneMemberID="viewController">
+                <viewController title="Module B" id="C9k-IL-jbm" customClass="ModuleBViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QHz-vC-YAk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
