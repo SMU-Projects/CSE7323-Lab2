@@ -1,0 +1,21 @@
+//
+//  DSPGraphModel.h
+//  Lab2
+//
+//  Created by Will Lacey on 10/1/19.
+//  Copyright © 2019 Will Lacey. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+// DSPUtils Imports
+#import "CircularBuffer.h"
+#import "FFTHelper.h"
+#import "Novocaine.h"
+
+// Graphing Imports
+#import "SMUGraphHelper.h"
+
+@interface DSPGraphModel : NSObject
+
+@end

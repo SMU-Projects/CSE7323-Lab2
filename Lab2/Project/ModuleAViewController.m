@@ -8,7 +8,8 @@
 
 #import "ModuleAViewController.h"
 
-#define BUFFER_SIZE 2048*4
+#define BUFFER_SIZE (2048*4)
+#define FFT_SIZE (BUFFER_SIZE/2)
 
 @interface ModuleAViewController ()
 @property (strong, nonatomic) CircularBuffer *buffer;
@@ -16,6 +17,10 @@
 @property (strong, nonatomic) Novocaine *audioManager;
 
 @property (strong, nonatomic) SMUGraphHelper *graphHelper;
+
+@property (weak, nonatomic) IBOutlet UILabel *frequencyLabel1;
+@property (weak, nonatomic) IBOutlet UILabel *frequencyLabel2;
+
 
 @end
 
@@ -71,7 +76,7 @@
     
     // get audio stream data
     float* arrayData = malloc(sizeof(float)*BUFFER_SIZE);
-    float* fftMagnitude = malloc(sizeof(float)*BUFFER_SIZE/2);
+    float* fftMagnitude = malloc(sizeof(float)*FFT_SIZE);
     
     [self.buffer fetchFreshData:arrayData withNumSamples:BUFFER_SIZE];
     
@@ -86,14 +91,27 @@
     
     // graph the FFT Data
     [self.graphHelper setGraphData:fftMagnitude
-                    withDataLength:BUFFER_SIZE/2
+                    withDataLength:FFT_SIZE
                      forGraphIndex:1
                  withNormalization:64.0
                      withZeroValue:-60];
     
+    // Calculate fft frequencies
+    int bucketSize = 10;
+    int bucketArrayLength = FFT_SIZE / bucketSize;
+    float* bucketArray = malloc(sizeof(float)*bucketArrayLength);
+    for (int i = 0; i < FFT_SIZE; i++)
+    {
+        
+    }
+    
+    self.frequencyLabel1.text = @"f1:";
+    self.frequencyLabel2.text = @"f2:";
+    
     [self.graphHelper update]; // update the graph
     free(arrayData);
     free(fftMagnitude);
+    free(bucketArray);
 }
 
 //  override the GLKView draw function, from OpenGLES
@@ -103,7 +121,7 @@
 
 - (void) viewDidDisappear:(BOOL)animated{
     [self.audioManager pause];
+    [self.audioManager setInputBlock:nil];
 }
-
 
 @end

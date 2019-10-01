@@ -20,6 +20,7 @@
 		B6976E3B2343FA5C0098A0CF /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E332343FA5C0098A0CF /* Novocaine.m */; };
 		B6976E3C2343FA5C0098A0CF /* FFTHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E372343FA5C0098A0CF /* FFTHelper.m */; };
 		B6976E3D2343FA5C0098A0CF /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E382343FA5C0098A0CF /* CircularBuffer.m */; };
+		B6976E41234418D60098A0CF /* DSPGraphModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E40234418D60098A0CF /* DSPGraphModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		B6976E362343FA5C0098A0CF /* FFTHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTHelper.h; sourceTree = "<group>"; };
 		B6976E372343FA5C0098A0CF /* FFTHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTHelper.m; sourceTree = "<group>"; };
 		B6976E382343FA5C0098A0CF /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularBuffer.m; sourceTree = "<group>"; };
+		B6976E3F234418D60098A0CF /* DSPGraphModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSPGraphModel.h; sourceTree = "<group>"; };
+		B6976E40234418D60098A0CF /* DSPGraphModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSPGraphModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,8 @@
 				B62628F3233ACB1B00F2BCD3 /* AppDelegate.m */,
 				B62628F5233ACB1B00F2BCD3 /* SceneDelegate.h */,
 				B62628F6233ACB1B00F2BCD3 /* SceneDelegate.m */,
+				B6976E3F234418D60098A0CF /* DSPGraphModel.h */,
+				B6976E40234418D60098A0CF /* DSPGraphModel.m */,
 				B62628F8233ACB1B00F2BCD3 /* ViewController.h */,
 				B62628F9233ACB1B00F2BCD3 /* ViewController.m */,
 				B6976E112343F4420098A0CF /* ModuleAViewController.h */,
@@ -201,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6976E3D2343FA5C0098A0CF /* CircularBuffer.m in Sources */,
+				B6976E41234418D60098A0CF /* DSPGraphModel.m in Sources */,
 				B6976E3B2343FA5C0098A0CF /* Novocaine.m in Sources */,
 				B62628FA233ACB1B00F2BCD3 /* ViewController.m in Sources */,
 				B62628F4233ACB1B00F2BCD3 /* AppDelegate.m in Sources */,

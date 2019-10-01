@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fDa-aC-xGs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GrQ-1D-WHw"/>
                             <constraint firstItem="ehO-xs-thx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IFO-gb-PlS"/>
@@ -75,10 +75,42 @@
                     <view key="view" contentMode="scaleToFill" id="Z48-ou-668" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Frequencies" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dwA-SY-Vh1">
+                                <rect key="frame" x="246" y="98" width="158" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="f1: 0.123123123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O0k-5c-og4">
+                                <rect key="frame" x="291" y="174" width="113" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="f1: 0.123123123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYY-Vp-jZa">
+                                <rect key="frame" x="291" y="144" width="113" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dwA-SY-Vh1" firstAttribute="top" secondItem="bmw-oS-wfo" secondAttribute="top" constant="10" id="1uN-os-WRg"/>
+                            <constraint firstItem="fYY-Vp-jZa" firstAttribute="top" secondItem="dwA-SY-Vh1" secondAttribute="bottom" constant="10" id="3we-gZ-CNM"/>
+                            <constraint firstItem="bmw-oS-wfo" firstAttribute="trailing" secondItem="dwA-SY-Vh1" secondAttribute="trailing" constant="10" id="F5f-ir-VDp"/>
+                            <constraint firstItem="bmw-oS-wfo" firstAttribute="trailing" secondItem="O0k-5c-og4" secondAttribute="trailing" constant="10" id="F6L-Wx-SQz"/>
+                            <constraint firstItem="O0k-5c-og4" firstAttribute="top" secondItem="fYY-Vp-jZa" secondAttribute="bottom" constant="10" id="Qzw-Bf-0Pl"/>
+                            <constraint firstItem="bmw-oS-wfo" firstAttribute="trailing" secondItem="fYY-Vp-jZa" secondAttribute="trailing" constant="10" id="tfS-RO-74K"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="bmw-oS-wfo"/>
                     </view>
                     <navigationItem key="navigationItem" title="Module A" id="1OH-Me-x9b"/>
+                    <connections>
+                        <outlet property="frequencyLabel1" destination="fYY-Vp-jZa" id="nVQ-oY-5Zm"/>
+                        <outlet property="frequencyLabel2" destination="O0k-5c-og4" id="8YR-E6-01A"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n38-dF-naT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -91,7 +123,7 @@
                     <view key="view" contentMode="scaleToFill" id="QHz-vC-YAk" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="18h-z7-aWg"/>
                     </view>
                     <navigationItem key="navigationItem" title="Module B" id="eso-Mu-XwB"/>
