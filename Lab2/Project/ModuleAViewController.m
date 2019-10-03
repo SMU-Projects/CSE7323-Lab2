@@ -63,7 +63,8 @@
     [self.graphHelper setScreenBoundsBottomHalf];
     __block ModuleAViewController * __weak  weakSelf = self;
     [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
-        [weakSelf.buffer addNewFloatData:data withNumSamples:numFrames];
+//        [weakSelf.buffer addNewFloatData:data withNumSamples:(numFrames*numChannels)];
+        [weakSelf.buffer addNewInterleavedFloatData:data withNumSamples:numFrames*numChannels withNumChannels:numChannels];
     }];
     
     [self.audioManager play];
@@ -100,18 +101,23 @@
     int bucketSize = 10;
     int bucketArrayLength = FFT_SIZE / bucketSize;
     float* bucketArray = malloc(sizeof(float)*bucketArrayLength);
+    float frequencyMax1 = -100;
+    float frequencyMax2 = -100;
     for (int i = 0; i < FFT_SIZE; i++)
     {
-        
+        if (frequencyMax1 < fftMagnitude[i])
+        {
+            frequencyMax1 = fftMagnitude[i];
+        }
     }
     
-    self.frequencyLabel1.text = @"f1:";
+    self.frequencyLabel1.text = [[NSNumber numberWithFloat:frequencyMax1] stringValue];
     self.frequencyLabel2.text = @"f2:";
     
     [self.graphHelper update]; // update the graph
     free(arrayData);
     free(fftMagnitude);
-    free(bucketArray);
+//    free(bucketArray);
 }
 
 //  override the GLKView draw function, from OpenGLES
