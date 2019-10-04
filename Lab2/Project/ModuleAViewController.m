@@ -120,7 +120,7 @@
                      withZeroValue:-60];
     
     // Calculate fft frequencies
-    int bucketSize = 12; // while this value is hardcoded, I found it to be more accurate than the exact bucket size calculation
+    int bucketSize = 10; // while this value is hardcoded, I found it to be more accurate than the exact bucket size calculation
     // int bucketSize = (50 * FFT_SIZE) / (SAMPLE_RATE/2); // Exact bucket size to differentiate 50Hz difference
     int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
     int bucketMaxIndex = 0; // Var to track local bucket max
