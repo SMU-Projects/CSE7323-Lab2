@@ -121,8 +121,6 @@
                  withNormalization:64.0
                      withZeroValue:-60];
     
-    // Calculate fft frequencies
-//    int bucketSize = 10; // while this value is hardcoded, I found it to be more accurate than the exact bucket size calculation
     int bucketSize = (50 * FFT_SIZE) / (SAMPLE_RATE/2); // Exact bucket size to differentiate 50Hz difference
     int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
     int bucketMaxIndex = 0; // Var to track local bucket max
@@ -134,6 +132,12 @@
             // Loudest Frequency Evaluation
             if ([self.frequency1Number floatValue] < fftMagnitude[bucketMaxIndex])
             {
+                // set frequency2 variables to previous frequency1 variables if the bucketMaxIndex is not too close to previous f1
+                if (!(bucketMaxIndex < (self.frequency1Int + bucketSize/2) && bucketMaxIndex > (self.frequency1Int - bucketSize/2)))
+                {
+                    self.frequency2Int = self.frequency1Int;
+                    self.frequency2Number = @([self.frequency1Number floatValue]);
+                }
                 self.frequency1Int = bucketMaxIndex;
                 self.frequency1Number = @(fftMagnitude[bucketMaxIndex]);
             }
