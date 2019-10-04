@@ -10,6 +10,7 @@
 
 #define BUFFER_SIZE (2048*4)
 #define FFT_SIZE (BUFFER_SIZE/2)
+#define SAMPLE_RATE 44100
 
 @interface ModuleAViewController ()
 @property (strong, nonatomic) CircularBuffer *buffer;
@@ -20,6 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *frequencyLabel1;
 @property (weak, nonatomic) IBOutlet UILabel *frequencyLabel2;
+@property (weak, nonatomic) IBOutlet NSTimer *timer;
 
 
 @end
@@ -98,26 +100,53 @@
                      withZeroValue:-60];
     
     // Calculate fft frequencies
-    int bucketSize = 10;
-    int bucketArrayLength = FFT_SIZE / bucketSize;
-    float* bucketArray = malloc(sizeof(float)*bucketArrayLength);
-    float frequencyMax1 = -100;
-    float frequencyMax2 = -100;
+//    int bucketSize = (50 * FFT_SIZE) / (SAMPLE_RATE/2); // Exact bucket size to differentiate 50Hz difference
+    int bucketSize = 15;
+    int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
+    int bucketMaxIndex = 0; // Var to track local bucket max
+    float frequencyMax1 = -100; // Loudest Frequency
+    float frequencyMax2 = -100; // 2nd Loudest Frequency
+    NSString* f1;
+    NSString* f2;
     for (int i = 0; i < FFT_SIZE; i++)
     {
-        if (frequencyMax1 < fftMagnitude[i])
+        // If bucket count overflow (or loop has finished), evaluate local bucket max relative to loudest frequencies
+        if (bucketIndexCount == bucketSize || i == FFT_SIZE-1)
         {
-            frequencyMax1 = fftMagnitude[i];
+            // Loudest Frequency Evaluation
+            if (frequencyMax1 < fftMagnitude[bucketMaxIndex])
+            {
+                frequencyMax1 = fftMagnitude[bucketMaxIndex];
+                
+                // Frequency1 = (max index) / (fft array length) * (sampling rate)
+                f1 = [[NSNumber numberWithFloat:((float)bucketMaxIndex / (float)FFT_SIZE) * SAMPLE_RATE/2] stringValue];
+            }
+            // 2nd Loudest Frequency Evaluation
+            else if (frequencyMax2 < fftMagnitude[bucketMaxIndex])
+            {
+                frequencyMax2 = fftMagnitude[bucketMaxIndex];
+                
+                // Frequency2 = (2nd max index) / (fft array length) * (sampling rate)
+                f2 = [[NSNumber numberWithFloat:((float)bucketMaxIndex / (float)FFT_SIZE) * SAMPLE_RATE/2] stringValue];
+            }
+            // Reset bucket
+            bucketIndexCount = 0;
+            bucketMaxIndex = i;
         }
+        
+        // Calculate local bucket maximum
+        if (fftMagnitude[bucketMaxIndex] < fftMagnitude[i])
+        {
+            bucketMaxIndex = i;
+        }
+        bucketIndexCount++; // Increment bucket count
     }
-    
-    self.frequencyLabel1.text = [[NSNumber numberWithFloat:frequencyMax1] stringValue];
-    self.frequencyLabel2.text = @"f2:";
+    self.frequencyLabel1.text = [NSString stringWithFormat:@"f1: %@Hz", f1];
+    self.frequencyLabel2.text = [NSString stringWithFormat:@"f2: %@Hz", f2];
     
     [self.graphHelper update]; // update the graph
     free(arrayData);
     free(fftMagnitude);
-//    free(bucketArray);
 }
 
 //  override the GLKView draw function, from OpenGLES
@@ -128,6 +157,7 @@
 - (void) viewDidDisappear:(BOOL)animated{
     [self.audioManager pause];
     [self.audioManager setInputBlock:nil];
+    [self.timer invalidate];
 }
 
 @end
