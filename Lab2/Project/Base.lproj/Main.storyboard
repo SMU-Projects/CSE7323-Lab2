@@ -108,8 +108,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Module A" id="1OH-Me-x9b"/>
                     <connections>
-                        <outlet property="frequencyLabel1" destination="fYY-Vp-jZa" id="nVQ-oY-5Zm"/>
-                        <outlet property="frequencyLabel2" destination="O0k-5c-og4" id="8YR-E6-01A"/>
+                        <outlet property="frequency1Label" destination="fYY-Vp-jZa" id="X9W-Ap-uoW"/>
+                        <outlet property="frequency2Label" destination="O0k-5c-og4" id="ANO-OB-t4T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n38-dF-naT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
