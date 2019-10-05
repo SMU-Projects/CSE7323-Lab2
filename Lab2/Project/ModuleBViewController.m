@@ -20,6 +20,7 @@
 @property (strong, nonatomic) SMUGraphHelper *graphHelper;
 
 @property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (strong, nonatomic) IBOutlet NSNumber *sliderValue;
 @property (weak, nonatomic) IBOutlet UILabel *sliderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gestureLabel;
 
@@ -28,6 +29,13 @@
 
 @implementation ModuleBViewController
 
+-(NSNumber*)sliderValue{
+    if(!_sliderValue){
+        _sliderValue = @(17);
+    }
+    return _sliderValue;
+}
+
 -(Novocaine*)audioManager{
     if(!_audioManager){
         _audioManager = [Novocaine audioManager];
@@ -35,14 +43,14 @@
     return _audioManager;
 }
 
--(CircularBuffer*)buffer{
+-(CircularBuffer*)buffer {
     if(!_buffer){
         _buffer = [[CircularBuffer alloc]initWithNumChannels:1 andBufferSize:BUFFER_SIZE];
     }
     return _buffer;
 }
 
--(SMUGraphHelper*)graphHelper{
+-(SMUGraphHelper*)graphHelper {
     if(!_graphHelper){
         _graphHelper = [[SMUGraphHelper alloc]initWithController:self
                                         preferredFramesPerSecond:15
@@ -53,7 +61,7 @@
     return _graphHelper;
 }
 
--(FFTHelper*)fftHelper{
+-(FFTHelper*)fftHelper {
     if(!_fftHelper){
         _fftHelper = [[FFTHelper alloc]initWithFFTSize:BUFFER_SIZE];
     }
@@ -63,9 +71,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.graphHelper setScreenBoundsBottomHalf];
+    
     __block ModuleBViewController * __weak  weakSelf = self;
-    [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
+    
+    [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels) {
         [weakSelf.buffer addNewInterleavedFloatData:data withNumSamples:numFrames*numChannels withNumChannels:numChannels];
+    }];
+    
+    __block float phase = 0.0;
+    [self.audioManager setOutputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels) {
+        double phaseIncrement = 2000*M_PI*[self.sliderValue floatValue]/SAMPLE_RATE;
+        double sineWavePeriod = 2*M_PI;
+        for (int i=0; i < numFrames; ++i)
+        {
+            for(int j=0;j<numChannels;j++)
+                data[i*numChannels+j] = 0.5*sin(phase);
+            
+            phase += phaseIncrement;
+            if (phase >= sineWavePeriod) phase -= 2*M_PI;
+        }
     }];
     
     [self.audioManager play];
@@ -73,7 +97,7 @@
 
 #pragma mark GLK Inherited Functions
 //  override the GLKViewController update function, from OpenGLES
-- (void)update{
+- (void)update {
     // just plot the audio stream
     
     // get audio stream data
@@ -98,8 +122,6 @@
     [self.graphHelper setGraphData:fftMagnitude
                     withDataLength:FFT_SIZE
                      forGraphIndex:1
-//                 withNormalization:200.0
-//                     withZeroValue:-60
                  withNormalization:64.0
                      withZeroValue:-60
      ];
@@ -115,14 +137,15 @@
 }
 
 - (IBAction)sliderAction:(id)sender {
-    NSNumber* value = @(self.slider.value);
-    self.sliderLabel.text = [NSString stringWithFormat:@"%@ kHz", value];
+    self.sliderValue = @(self.slider.value);
+    self.sliderLabel.text = [NSString stringWithFormat:@"%@ kHz", self.sliderValue];
 }
 
 
 - (void) viewDidDisappear:(BOOL)animated{
     [self.audioManager pause];
     [self.audioManager setInputBlock:nil];
+    [self.audioManager setOutputBlock:nil];
 }
 
 @end
