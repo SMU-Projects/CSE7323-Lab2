@@ -123,14 +123,50 @@
                     <view key="view" contentMode="scaleToFill" id="QHz-vC-YAk" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="17" minValue="15" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="4px-JJ-5vk">
+                                <rect key="frame" x="55" y="118" width="304" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="VMz-TD-pVZ"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="sliderAction:" destination="C9k-IL-jbm" eventType="valueChanged" id="XUN-0w-z94"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="17 kHz" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZM-Mz-huc">
+                                <rect key="frame" x="180" y="158" width="54" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="not gesturing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgT-jB-2tA">
+                                <rect key="frame" x="122" y="801" width="170" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="18h-z7-aWg" firstAttribute="bottom" secondItem="rgT-jB-2tA" secondAttribute="bottom" constant="25" id="1K2-66-bYX"/>
+                            <constraint firstItem="lZM-Mz-huc" firstAttribute="top" secondItem="4px-JJ-5vk" secondAttribute="bottom" constant="10" id="5dK-vc-Vys"/>
+                            <constraint firstItem="4px-JJ-5vk" firstAttribute="top" secondItem="18h-z7-aWg" secondAttribute="top" constant="30" id="IgX-XJ-w3m"/>
+                            <constraint firstItem="rgT-jB-2tA" firstAttribute="centerX" secondItem="QHz-vC-YAk" secondAttribute="centerX" id="JFG-eB-ybB"/>
+                            <constraint firstItem="lZM-Mz-huc" firstAttribute="centerX" secondItem="QHz-vC-YAk" secondAttribute="centerX" id="fcC-jG-5gd"/>
+                            <constraint firstItem="4px-JJ-5vk" firstAttribute="centerX" secondItem="QHz-vC-YAk" secondAttribute="centerX" id="pYQ-p5-T72"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="18h-z7-aWg"/>
                     </view>
                     <navigationItem key="navigationItem" title="Module B" id="eso-Mu-XwB"/>
+                    <connections>
+                        <outlet property="gestureLabel" destination="rgT-jB-2tA" id="3La-dV-7mz"/>
+                        <outlet property="slider" destination="4px-JJ-5vk" id="KjS-Pq-ns9"/>
+                        <outlet property="sliderLabel" destination="lZM-Mz-huc" id="wGZ-Ld-aRJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgZ-O8-70f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2055" y="490"/>
+            <point key="canvasLocation" x="2053.6231884057975" y="489.50892857142856"/>
         </scene>
     </scenes>
 </document>

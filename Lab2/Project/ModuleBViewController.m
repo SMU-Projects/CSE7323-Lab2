@@ -8,7 +8,9 @@
 
 #import "ModuleBViewController.h"
 
-#define BUFFER_SIZE 2048*4
+#define BUFFER_SIZE (2048*4)
+#define FFT_SIZE (BUFFER_SIZE/2)
+#define SAMPLE_RATE 44100
 
 @interface ModuleBViewController ()
 @property (strong, nonatomic) CircularBuffer *buffer;
@@ -16,6 +18,11 @@
 @property (strong, nonatomic) Novocaine *audioManager;
 
 @property (strong, nonatomic) SMUGraphHelper *graphHelper;
+
+@property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UILabel *sliderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *gestureLabel;
+
 
 @end
 
@@ -58,7 +65,7 @@
     [self.graphHelper setScreenBoundsBottomHalf];
     __block ModuleBViewController * __weak  weakSelf = self;
     [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
-        [weakSelf.buffer addNewFloatData:data withNumSamples:numFrames];
+        [weakSelf.buffer addNewInterleavedFloatData:data withNumSamples:numFrames*numChannels withNumChannels:numChannels];
     }];
     
     [self.audioManager play];
@@ -71,14 +78,17 @@
     
     // get audio stream data
     float* arrayData = malloc(sizeof(float)*BUFFER_SIZE);
-    float* fftMagnitude = malloc(sizeof(float)*BUFFER_SIZE/2);
+    float* fftMagnitude = malloc(sizeof(float)*FFT_SIZE);
     
     [self.buffer fetchFreshData:arrayData withNumSamples:BUFFER_SIZE];
     
     //send off for graphing
     [self.graphHelper setGraphData:arrayData
                     withDataLength:BUFFER_SIZE
-                     forGraphIndex:0];
+                     forGraphIndex:0
+//                    withNormalization:2
+//                    withZeroValue:0
+     ];
     
     // take forward FFT
     [self.fftHelper performForwardFFTWithData:arrayData
@@ -86,10 +96,13 @@
     
     // graph the FFT Data
     [self.graphHelper setGraphData:fftMagnitude
-                    withDataLength:BUFFER_SIZE/2
+                    withDataLength:FFT_SIZE
                      forGraphIndex:1
+//                 withNormalization:200.0
+//                     withZeroValue:-60
                  withNormalization:64.0
-                     withZeroValue:-60];
+                     withZeroValue:-60
+     ];
     
     [self.graphHelper update]; // update the graph
     free(arrayData);
@@ -101,9 +114,15 @@
     [self.graphHelper draw]; // draw the graph
 }
 
-- (void) viewDidDisappear:(BOOL)animated{
-    [self.audioManager pause];
+- (IBAction)sliderAction:(id)sender {
+    NSNumber* value = @(self.slider.value);
+    self.sliderLabel.text = [NSString stringWithFormat:@"%@ kHz", value];
 }
 
+
+- (void) viewDidDisappear:(BOOL)animated{
+    [self.audioManager pause];
+    [self.audioManager setInputBlock:nil];
+}
 
 @end
