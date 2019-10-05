@@ -20,8 +20,9 @@
 @property (strong, nonatomic) SMUGraphHelper *graphHelper;
 
 @property (weak, nonatomic) IBOutlet UISlider *slider;
-@property (strong, nonatomic) IBOutlet NSNumber *sliderValue;
-@property (weak, nonatomic) IBOutlet UILabel *sliderLabel;
+@property (strong, nonatomic) IBOutlet NSNumber *frequencyValue;
+@property (weak, nonatomic) IBOutlet UILabel *frequencyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *loudnessLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gestureLabel;
 
 
@@ -29,11 +30,11 @@
 
 @implementation ModuleBViewController
 
--(NSNumber*)sliderValue{
-    if(!_sliderValue){
-        _sliderValue = @(17);
+-(NSNumber*)frequencyValue{
+    if(!_frequencyValue){
+        _frequencyValue = @(17);
     }
-    return _sliderValue;
+    return _frequencyValue;
 }
 
 -(Novocaine*)audioManager{
@@ -80,7 +81,7 @@
     
     __block float phase = 0.0;
     [self.audioManager setOutputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels) {
-        double phaseIncrement = 2000*M_PI*[self.sliderValue floatValue]/SAMPLE_RATE;
+        double phaseIncrement = 2000*M_PI*[self.frequencyValue floatValue]/SAMPLE_RATE;
         double sineWavePeriod = 2*M_PI;
         for (int i=0; i < numFrames; ++i)
         {
@@ -126,6 +127,25 @@
                      withZeroValue:-60
      ];
     
+    int lowerBounds = (15000 * FFT_SIZE) / (SAMPLE_RATE/2); // 15000hz index
+    int upperBounds = (20000 * FFT_SIZE) / (SAMPLE_RATE/2); // 20000hz index
+    
+    int loudestFrequencyIndex = lowerBounds;
+    for(int i = lowerBounds; i < upperBounds; i++)
+    {
+        if(fftMagnitude[loudestFrequencyIndex] < fftMagnitude[i])
+        {
+            loudestFrequencyIndex = i;
+        }
+    }
+    
+//    // Print Frequency
+//    self.loudnessLabel.text = [@(loudestFrequencyIndex / (float)FFT_SIZE * SAMPLE_RATE/2) stringValue];
+    
+    // Print Loudness
+    self.loudnessLabel.text = [NSString stringWithFormat:@"%@ dB", @(20 * log10f(fabsf(fftMagnitude[loudestFrequencyIndex])))];
+    ;
+    
     [self.graphHelper update]; // update the graph
     free(arrayData);
     free(fftMagnitude);
@@ -137,8 +157,8 @@
 }
 
 - (IBAction)sliderAction:(id)sender {
-    self.sliderValue = @(self.slider.value);
-    self.sliderLabel.text = [NSString stringWithFormat:@"%@ kHz", self.sliderValue];
+    self.frequencyValue = @(self.slider.value);
+    self.frequencyLabel.text = [NSString stringWithFormat:@"%@ kHz", self.frequencyValue];
 }
 
 

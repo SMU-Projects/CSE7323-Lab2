@@ -167,9 +167,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Module B" id="eso-Mu-XwB"/>
                     <connections>
+                        <outlet property="frequencyLabel" destination="lZM-Mz-huc" id="7cz-TA-Jd5"/>
                         <outlet property="gestureLabel" destination="rgT-jB-2tA" id="3La-dV-7mz"/>
+                        <outlet property="loudnessLabel" destination="ImP-gA-5Q2" id="3zt-xH-HSI"/>
                         <outlet property="slider" destination="4px-JJ-5vk" id="KjS-Pq-ns9"/>
-                        <outlet property="sliderLabel" destination="lZM-Mz-huc" id="wGZ-Ld-aRJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgZ-O8-70f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
