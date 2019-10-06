@@ -11,9 +11,7 @@
 #import <GLKit/GLKit.h>
 
 // DSPUtils Imports
-#import "CircularBuffer.h"
-#import "FFTHelper.h"
-#import "Novocaine.h"
+#import "AnalyzerModel.h";
 
 // Graphing Imports
 #import "SMUGraphHelper.h"

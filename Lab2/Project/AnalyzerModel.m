@@ -113,7 +113,7 @@
 }
 
 -(void)performFftOnAudio{
-    if (!self.audioData) {free(self.audioData);NSLog(@"he");}
+    if (!self.audioData) {free(self.audioData);}
     if (!self.fftData) {free(self.fftData);}
     self.audioData = malloc(sizeof(float)*BUFFER_SIZE);
     self.fftData = malloc(sizeof(float)*FFT_SIZE);
@@ -137,6 +137,88 @@
 
 -(int)getFftDataSize{
     return FFT_SIZE;
+}
+
++(float) convertFftMagnitudeIndexToFrequency:(int)fftMagnitudeIndex{
+    return (float)fftMagnitudeIndex * ((float)SAMPLE_RATE/2) / (float) FFT_SIZE;
+}
+
++(int) convertFrequencyToFftMagnitudeIndex:(float)frequency{
+    return frequency * FFT_SIZE / ((float)SAMPLE_RATE/2);
+}
+
+-(float) getFftRangeWithLowerFrequencyBounds:(float)lowerFrequency andUpperFrequencyBounds:(float)upperFrequency{
+    
+    int lowerBounds = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:lowerFrequency];
+    int upperBounds = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:upperFrequency];
+    
+    float highestValue = -1000;
+    float lowestValue = 1000;
+    for (int i = lowerBounds; i < upperBounds; i++)
+    {
+        if (self.fftData[i] > highestValue)
+        {
+            highestValue = self.fftData[i];
+        }
+        if (self.fftData[i] < lowestValue)
+        {
+            lowestValue = self.fftData[i];
+        }
+    }
+    return highestValue - lowestValue;
+}
+
+-(NSArray*) getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:(float)lowerFrequency andUpperFrequencyBounds:(float)upperFrequency usingFrequencyBucketSize:(float)frequencyBucketSize{
+    
+    int lowerBounds = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:lowerFrequency];
+    int upperBounds = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:upperFrequency];
+    
+    float frequency1Float = -1000;
+    float frequency2Float = -1000;
+    int frequency1Index = 0;
+    int frequency2Index = 100;
+    
+    int bucketSize = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:frequencyBucketSize];
+    int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
+    int bucketMaxIndex = 0; // Var to track local bucket max
+    for (int i = lowerBounds; i < upperBounds; i++)
+    {
+    // If bucket count overflow (or loop has finished), evaluate local bucket max relative to loudest frequencies
+        if (bucketIndexCount == bucketSize || i == FFT_SIZE-1)
+        {
+            // Loudest Frequency Evaluation
+            if (frequency1Float < self.fftData[bucketMaxIndex])
+            {
+                // set frequency2 variables to previous frequency1 variables if the bucketMaxIndex is not too close to previous f1
+                if (!(bucketMaxIndex < (frequency1Index + bucketSize/2) && bucketMaxIndex > (frequency1Index - bucketSize/2)))
+                {
+                    frequency2Index = frequency1Index;
+                    frequency2Float = frequency1Float;
+                }
+                frequency1Index = bucketMaxIndex;
+                frequency1Float = self.fftData[bucketMaxIndex];
+            }
+            // 2nd Loudest Frequency Evaluation; f2 cannot be too close to f1
+            else if (frequency2Float <  self.fftData[bucketMaxIndex] && !(bucketMaxIndex < (frequency1Index + bucketSize/2) && bucketMaxIndex > (frequency1Index - bucketSize/2)))
+            {
+                frequency2Index = bucketMaxIndex;
+                frequency2Float = self.fftData[bucketMaxIndex];
+            }
+            // Reset bucket
+            bucketIndexCount = 0;
+            bucketMaxIndex = i;
+        }
+
+        // Calculate local bucket maximum
+        if ( self.fftData[bucketMaxIndex] <  self.fftData[i])
+        {
+            bucketMaxIndex = i;
+        }
+        bucketIndexCount++; // Increment bucket count
+    }
+    
+    NSArray* frequencies = @[@(frequency1Index), @(frequency2Index)];
+    return frequencies;
 }
 
 -(void) close{

@@ -13,43 +13,36 @@
 #define SAMPLE_RATE 44100
 
 @interface ModuleAViewController ()
-@property (strong, nonatomic) CircularBuffer *buffer;
-@property (strong, nonatomic) FFTHelper *fftHelper;
-@property (strong, nonatomic) Novocaine *audioManager;
+
+@property (strong, nonatomic) AnalyzerModel *myAnalyzerModel;
 
 @property (strong, nonatomic) SMUGraphHelper *graphHelper;
 
-@property (strong, nonatomic) IBOutlet NSNumber *frequency1Number;
-@property (strong, nonatomic) IBOutlet NSNumber *frequency2Number;
-@property (nonatomic) int frequency1Index;
-@property (nonatomic) int frequency2Index;
+@property (nonatomic) float fftMagnitude1;
+@property (nonatomic) float fftMagnitude2;
+@property (nonatomic) int fftMagnitudeIndex1;
+@property (nonatomic) int fftMagnitudeIndex2;
+
 @property (weak, nonatomic) IBOutlet UILabel *frequency1Label;
 @property (weak, nonatomic) IBOutlet UILabel *frequency2Label;
 @property (strong, nonatomic) IBOutlet NSTimer *timer;
-
 
 @end
 
 @implementation ModuleAViewController
 
--(Novocaine*)audioManager{
-    if(!_audioManager){
-        _audioManager = [Novocaine audioManager];
-    }
-    return _audioManager;
-}
-
--(CircularBuffer*)buffer{
-    if(!_buffer){
-        _buffer = [[CircularBuffer alloc]initWithNumChannels:1 andBufferSize:BUFFER_SIZE];
-    }
-    return _buffer;
+-(AnalyzerModel*)myAnalyzerModel{
+    
+    if(!_myAnalyzerModel)
+        _myAnalyzerModel = [AnalyzerModel sharedInstance];
+    
+    return _myAnalyzerModel;
 }
 
 -(SMUGraphHelper*)graphHelper{
     if(!_graphHelper){
         _graphHelper = [[SMUGraphHelper alloc]initWithController:self
-                                        preferredFramesPerSecond:15
+                                        preferredFramesPerSecond:30
                                                        numGraphs:2
                                                        plotStyle:PlotStyleSeparated
                                                maxPointsPerGraph:BUFFER_SIZE];
@@ -57,126 +50,89 @@
     return _graphHelper;
 }
 
--(FFTHelper*)fftHelper{
-    if(!_fftHelper){
-        _fftHelper = [[FFTHelper alloc]initWithFFTSize:BUFFER_SIZE];
-    }
-    return _fftHelper;
-}
-
--(NSNumber*)frequency1Number{
-    if(!_frequency1Number){
-        _frequency1Number = @(-100);
-    }
-    return _frequency1Number;
-}
-
--(NSNumber*)frequency2Number{
-    if(!_frequency2Number){
-        _frequency2Number = @(-100);
-    }
-    return _frequency2Number;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.graphHelper setScreenBoundsBottomHalf];
-    __block ModuleAViewController * __weak  weakSelf = self;
-    [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels){
-        [weakSelf.buffer addNewInterleavedFloatData:data withNumSamples:numFrames*numChannels withNumChannels:numChannels];
-    }];
+    
+    [self.myAnalyzerModel useMicrophone];
+    [self.myAnalyzerModel playAudioManager];
+    
+    self.fftMagnitude1 = -1000;
+    self.fftMagnitude2 = -1000;
+    self.fftMagnitudeIndex1 = 0;
+    self.fftMagnitudeIndex2 = 0;
+    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.2
                                                   target:self
                                                 selector:@selector(updateLabels)
                                                 userInfo:nil
                                                  repeats:YES];
-    
-    [self.audioManager play];
 }
 
 #pragma mark GLK Inherited Functions
 //  override the GLKViewController update function, from OpenGLES
 - (void)update{
-    // just plot the audio stream
+    // take forward FFT
+    [self.myAnalyzerModel performFftOnAudio];
     
-    // get audio stream data
-    float* arrayData = malloc(sizeof(float)*BUFFER_SIZE);
-    float* fftMagnitude = malloc(sizeof(float)*FFT_SIZE);
+    int sampleRate = [self.myAnalyzerModel getSampleRate];
     
-    [self.buffer fetchFreshData:arrayData withNumSamples:BUFFER_SIZE];
+    float* audioData = [self.myAnalyzerModel getAudioData];
+    int audioDataSize = [self.myAnalyzerModel getAudioDataSize];
+    
+    float* fftData = [self.myAnalyzerModel getFftData];
+    int fftDataSize = [self.myAnalyzerModel getFftDataSize];
     
     //send off for graphing
-    [self.graphHelper setGraphData:arrayData
-                    withDataLength:BUFFER_SIZE
-                     forGraphIndex:0];
-    
-    // take forward FFT
-    [self.fftHelper performForwardFFTWithData:arrayData
-                   andCopydBMagnitudeToBuffer:fftMagnitude];
+    [self.graphHelper setGraphData:audioData
+                    withDataLength:audioDataSize
+                     forGraphIndex:0
+//                    withNormalization:2
+//                    withZeroValue:0
+     ];
     
     // graph the FFT Data
-    [self.graphHelper setGraphData:fftMagnitude
-                    withDataLength:FFT_SIZE
+    [self.graphHelper setGraphData:fftData
+                    withDataLength:fftDataSize
                      forGraphIndex:1
                  withNormalization:64.0
-                     withZeroValue:-60];
+                     withZeroValue:-60
+     ];
     
-    int bucketSize = (50 * FFT_SIZE) / (SAMPLE_RATE/2); // Exact bucket size to differentiate 50Hz difference
-    int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
-    int bucketMaxIndex = 0; // Var to track local bucket max
-    for (int i = 0; i < FFT_SIZE; i++)
+        NSArray* fftMagnitudeIndices = [self.myAnalyzerModel getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:0 andUpperFrequencyBounds:sampleRate/2 usingFrequencyBucketSize:50];
+
+    int newFftMagnitudeIndex1 = [[fftMagnitudeIndices objectAtIndex:0] intValue];
+    int newFftMagnitudeIndex2 = [[fftMagnitudeIndices objectAtIndex:1] intValue];
+    
+//    NSLog([NSString stringWithFormat:@"mag1: %i", newFftMagnitudeIndex1]);
+//    NSLog([NSString stringWithFormat:@"mag2: %i", newFftMagnitudeIndex2]);
+    
+    if (fftData[newFftMagnitudeIndex1] > self.fftMagnitude1)
     {
-        // If bucket count overflow (or loop has finished), evaluate local bucket max relative to loudest frequencies
-        if (bucketIndexCount == bucketSize || i == FFT_SIZE-1)
-        {
-            // Loudest Frequency Evaluation
-            if ([self.frequency1Number floatValue] < fftMagnitude[bucketMaxIndex])
-            {
-                // set frequency2 variables to previous frequency1 variables if the bucketMaxIndex is not too close to previous f1
-                if (!(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
-                {
-                    self.frequency2Index = self.frequency1Index;
-                    self.frequency2Number = @([self.frequency1Number floatValue]);
-                }
-                self.frequency1Index = bucketMaxIndex;
-                self.frequency1Number = @(fftMagnitude[bucketMaxIndex]);
-            }
-            // 2nd Loudest Frequency Evaluation; f2 cannot be too close to f1
-            else if ([self.frequency2Number floatValue] < fftMagnitude[bucketMaxIndex] && !(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
-            {
-                self.frequency2Index = bucketMaxIndex;
-                self.frequency2Number = @(fftMagnitude[bucketMaxIndex]);
-            }
-            // Reset bucket
-            bucketIndexCount = 0;
-            bucketMaxIndex = i;
-        }
-        
-        // Calculate local bucket maximum
-        if (fftMagnitude[bucketMaxIndex] < fftMagnitude[i])
-        {
-            bucketMaxIndex = i;
-        }
-        bucketIndexCount++; // Increment bucket count
+        self.fftMagnitude1 = fftData[newFftMagnitudeIndex1];
+        self.fftMagnitudeIndex1 = newFftMagnitudeIndex1;
+    }
+    if (fftData[newFftMagnitudeIndex2] > self.fftMagnitude2)
+    {
+        self.fftMagnitude2 = fftData[newFftMagnitudeIndex2];
+        self.fftMagnitudeIndex2 = newFftMagnitudeIndex2;
     }
     
     [self.graphHelper update]; // update the graph
-    free(arrayData);
-    free(fftMagnitude);
+    free(audioData);
+    free(fftData);
 }
 
 -(void) updateLabels{
-    // frequency = (max index) / (fft array length) * (sampling rate)
-    self.frequency1Number = @((float)self.frequency1Index / (float)FFT_SIZE * SAMPLE_RATE/2);
-    self.frequency2Number = @((float)self.frequency2Index / (float)FFT_SIZE * SAMPLE_RATE/2);
-    
-    // update labels to frequency values
-    self.frequency1Label.text = [NSString stringWithFormat:@"f1: %@Hz", self.frequency1Number];
-    self.frequency2Label.text = [NSString stringWithFormat:@"f2: %@Hz", self.frequency2Number];
+//     update labels to frequency values
+    self.frequency1Label.text = [NSString stringWithFormat:@"f1: %fHz", [AnalyzerModel convertFftMagnitudeIndexToFrequency:self.fftMagnitudeIndex1]];
+    self.frequency2Label.text = [NSString stringWithFormat:@"f2: %fHz", [AnalyzerModel convertFftMagnitudeIndexToFrequency:self.fftMagnitudeIndex2]];
     
     // reset frequency value until next timer interval
-    self.frequency1Number = @(-100);
-    self.frequency2Number = @(-100);
+    self.fftMagnitude1 = -1000;
+    self.fftMagnitude2 = -1000;
+    self.fftMagnitudeIndex1 = 0;
+    self.fftMagnitudeIndex2 = 100;
 }
 
 //  override the GLKView draw function, from OpenGLES
@@ -185,8 +141,7 @@
 }
 
 - (void) viewDidDisappear:(BOOL)animated{
-    [self.audioManager pause];
-    [self.audioManager setInputBlock:nil];
+    [self.myAnalyzerModel close];
     [self.timer invalidate];
 }
 

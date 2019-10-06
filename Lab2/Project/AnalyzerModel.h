@@ -36,6 +36,16 @@
 
 -(int) getFftDataSize;
 
++(float) convertFftMagnitudeIndexToFrequency:(int)fftMagnitudeIndex;
+
++(int) convertFrequencyToFftMagnitudeIndex:(float)frequency;
+
+-(float) getFftRangeWithLowerFrequencyBounds:(float)lowerFrequency andUpperFrequencyBounds:(float)upperFrequency;
+
+-(NSArray*) getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:(float)lowerFrequency andUpperFrequencyBounds:(float)upperFrequency usingFrequencyBucketSize:(float)frequencyBucketSize;;
+
+
+
 -(void) close;
 
 @end

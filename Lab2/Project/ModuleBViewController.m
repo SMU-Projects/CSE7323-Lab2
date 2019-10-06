@@ -20,11 +20,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *loudnessLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gestureLabel;
 
-@property (strong, nonatomic) IBOutlet NSNumber *frequency1Number;
-@property (strong, nonatomic) IBOutlet NSNumber *frequency2Number;
-@property (nonatomic) int frequency1Index;
-@property (nonatomic) int frequency2Index;
-
 @end
 
 @implementation ModuleBViewController
@@ -95,67 +90,26 @@
                      withZeroValue:-60
      ];
     
+    float fftRange = [self.myAnalyzerModel getFftRangeWithLowerFrequencyBounds:14500 andUpperFrequencyBounds:20500];
     
+    NSArray* fftMagnitudeIndices = [self.myAnalyzerModel getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:14500 andUpperFrequencyBounds:20500 usingFrequencyBucketSize:60];
     
-    int lowerBounds = (14500 * fftDataSize) / (sampleRate/2); // 14500 frequency index
-    int upperBounds = (20500 * fftDataSize) / (sampleRate/2); // 20500 frequency index
+    int fftMagnitudeIndex1 = [[fftMagnitudeIndices objectAtIndex:0] intValue];
+    int fftMagnitudeIndex2 = [[fftMagnitudeIndices objectAtIndex:1] intValue];
     
-    // Normalization of FFT
-    float lowestValue = 1000;
-    for (int i = lowerBounds; i < upperBounds; i++)
-    {
-        if (fftData[i] < lowestValue)
-        {
-            lowestValue = fftData[i];
-        }
-    }
-    for (int i = lowerBounds; i < upperBounds; i++)
-    {
-        fftData[i] += fabsf(lowestValue);
-    }
-
-    int bucketSize = (60 * fftDataSize) / (sampleRate/2); // Exact bucket size to differentiate 60Hz difference
-    int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
-    int bucketMaxIndex = 0; // Var to track local bucket max
-    for (int i = lowerBounds; i < upperBounds; i++)
-    {
-    // If bucket count overflow (or loop has finished), evaluate local bucket max relative to loudest frequencies
-        if (bucketIndexCount == bucketSize || i == fftDataSize-1)
-        {
-            // Loudest Frequency Evaluation
-            if ([self.frequency1Number floatValue] < fftData[bucketMaxIndex])
-            {
-                // set frequency2 variables to previous frequency1 variables if the bucketMaxIndex is not too close to previous f1
-                if (!(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
-                {
-                    self.frequency2Index = self.frequency1Index;
-                    self.frequency2Number = @([self.frequency1Number floatValue]);
-                }
-                self.frequency1Index = bucketMaxIndex;
-                self.frequency1Number = @(fftData[bucketMaxIndex]);
-            }
-            // 2nd Loudest Frequency Evaluation; f2 cannot be too close to f1
-            else if ([self.frequency2Number floatValue] < fftData[bucketMaxIndex] && !(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
-            {
-                self.frequency2Index = bucketMaxIndex;
-                self.frequency2Number = @(fftData[bucketMaxIndex]);
-            }
-            // Reset bucket
-            bucketIndexCount = 0;
-            bucketMaxIndex = i;
-        }
-
-        // Calculate local bucket maximum
-        if (fftData[bucketMaxIndex] < fftData[i])
-        {
-            bucketMaxIndex = i;
-        }
-        bucketIndexCount++; // Increment bucket count
-    }
+//    NSLog([NSString stringWithFormat:@"F1: %f", [AnalyzerModel convertFftMagnitudeIndexToFrequency:f1]]);
+//    NSLog([NSString stringWithFormat:@"F2: %f", [AnalyzerModel convertFftMagnitudeIndexToFrequency:f2]]);
+//
+//    NSLog([NSString stringWithFormat:@"range: %f", fftRange]);
+//
+    float lowestFftMagnitude = fftData[fftMagnitudeIndex1] - fftRange;
+    float fftMagnitude1 = fftData[fftMagnitudeIndex1] + fabsf(lowestFftMagnitude);
     
-    if([self.frequency1Number floatValue] < 1.5*[self.frequency2Number floatValue])
+    float fftMagnitude2 = fftData[fftMagnitudeIndex2] + fabsf(lowestFftMagnitude);
+    
+    if(fftMagnitude1 < 1.5*fftMagnitude2)
     {
-        if(self.frequency1Index > self.frequency2Index)
+        if(fftMagnitudeIndex1 > fftMagnitudeIndex2)
         {
             self.gestureLabel.text = @"gesturing away";
         }
@@ -168,18 +122,7 @@
         self.gestureLabel.text = @"not gesturing";
     }
     
-    self.frequency1Number = @(-100);
-    self.frequency2Number = @(-100);
-    self.frequency1Index = 0;
-    self.frequency2Index = 0;
-    
     self.loudnessLabel.text = @"ERROR CHANGE";
-    
-    // Print Frequency
-//    self.loudnessLabel.text = [@(self.frequency1Index / (float)FFT_SIZE * SAMPLE_RATE/2) stringValue];
-    
-    // Print Loudness
-//    self.loudnessLabel.text = [NSString stringWithFormat:@"%@ dB", @(20 * log10f(fabsf(fftMagnitude[(int)self.frequency1Index])))];
     
     [self.graphHelper update]; // update the graph
     free(audioData);
