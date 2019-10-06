@@ -21,7 +21,7 @@
 
 @property (strong, nonatomic) IBOutlet NSNumber *frequency1Number;
 @property (strong, nonatomic) IBOutlet NSNumber *frequency2Number;
-@property (nonatomic) float frequency1Int;
+@property (nonatomic) float frequency1Int; // This property functions as an integer, but is a float so that it does not need to be casted during division
 @property (nonatomic) float frequency2Int;
 @property (weak, nonatomic) IBOutlet UILabel *frequency1Label;
 @property (weak, nonatomic) IBOutlet UILabel *frequency2Label;
