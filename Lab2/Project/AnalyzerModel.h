@@ -2,16 +2,40 @@
 //  AnalyzerModel.h
 //  Lab2
 //
-//  Created by Will Lacey on 10/6/19.
+//  Created by Will Lacey on 10/1/19.
 //  Copyright © 2019 Will Lacey. All rights reserved.
 //
 
+// Class Imports
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
+// DSPUtils Imports
+#import "CircularBuffer.h"
+#import "FFTHelper.h"
+#import "Novocaine.h"
 
 @interface AnalyzerModel : NSObject
 
-@end
++(AnalyzerModel*) sharedInstance;
 
-NS_ASSUME_NONNULL_END
+-(void) useMicrophone;
+
+-(void) useSpeaker:(float)withFrequency;
+
+-(void)playAudioManager;
+
+-(int) getSampleRate;
+
+-(void)performFftOnAudio;
+
+-(float*) getAudioData;
+
+-(int) getAudioDataSize;
+
+-(float*) getFftData;
+
+-(int) getFftDataSize;
+
+-(void) close;
+
+@end

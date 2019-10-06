@@ -124,7 +124,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="19" minValue="15" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="4px-JJ-5vk">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="19000" minValue="15000" maxValue="20000" translatesAutoresizingMaskIntoConstraints="NO" id="4px-JJ-5vk">
                                 <rect key="frame" x="55" y="118" width="304" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="VMz-TD-pVZ"/>
