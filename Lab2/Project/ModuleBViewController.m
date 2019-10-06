@@ -25,6 +25,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *loudnessLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gestureLabel;
 
+@property (strong, nonatomic) IBOutlet NSNumber *frequency1Number;
+@property (strong, nonatomic) IBOutlet NSNumber *frequency2Number;
+@property (nonatomic) int frequency1Index;
+@property (nonatomic) int frequency2Index;
 
 @end
 
@@ -32,7 +36,7 @@
 
 -(NSNumber*)frequencyValue{
     if(!_frequencyValue){
-        _frequencyValue = @(17);
+        _frequencyValue = @(19);
     }
     return _frequencyValue;
 }
@@ -127,24 +131,89 @@
                      withZeroValue:-60
      ];
     
-    int lowerBounds = (15000 * FFT_SIZE) / (SAMPLE_RATE/2); // 15000hz index
-    int upperBounds = (20000 * FFT_SIZE) / (SAMPLE_RATE/2); // 20000hz index
+    int lowerBounds = (14500 * FFT_SIZE) / (SAMPLE_RATE/2); // 14500 frequency index
+    int upperBounds = (20500 * FFT_SIZE) / (SAMPLE_RATE/2); // 20500 frequency index
     
-    int loudestFrequencyIndex = lowerBounds;
-    for(int i = lowerBounds; i < upperBounds; i++)
+    // Normalization of FFT
+    float lowestValue = 1000;
+    for (int i = lowerBounds; i < upperBounds; i++)
     {
-        if(fftMagnitude[loudestFrequencyIndex] < fftMagnitude[i])
+        if (fftMagnitude[i] < lowestValue)
         {
-            loudestFrequencyIndex = i;
+            lowestValue = fftMagnitude[i];
         }
     }
+    for (int i = lowerBounds; i < upperBounds; i++)
+    {
+        fftMagnitude[i] += fabsf(lowestValue);
+    }
+
+    int bucketSize = (60 * FFT_SIZE) / (SAMPLE_RATE/2); // Exact bucket size to differentiate 60Hz difference
+    int bucketIndexCount = 0; // Var to track bucket overflow; when bucket fills, evaluate local bucket max
+    int bucketMaxIndex = 0; // Var to track local bucket max
+    for (int i = lowerBounds; i < upperBounds; i++)
+    {
+    // If bucket count overflow (or loop has finished), evaluate local bucket max relative to loudest frequencies
+        if (bucketIndexCount == bucketSize || i == FFT_SIZE-1)
+        {
+            // Loudest Frequency Evaluation
+            if ([self.frequency1Number floatValue] < fftMagnitude[bucketMaxIndex])
+            {
+                // set frequency2 variables to previous frequency1 variables if the bucketMaxIndex is not too close to previous f1
+                if (!(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
+                {
+                    self.frequency2Index = self.frequency1Index;
+                    self.frequency2Number = @([self.frequency1Number floatValue]);
+                }
+                self.frequency1Index = bucketMaxIndex;
+                self.frequency1Number = @(fftMagnitude[bucketMaxIndex]);
+            }
+            // 2nd Loudest Frequency Evaluation; f2 cannot be too close to f1
+            else if ([self.frequency2Number floatValue] < fftMagnitude[bucketMaxIndex] && !(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
+            {
+                self.frequency2Index = bucketMaxIndex;
+                self.frequency2Number = @(fftMagnitude[bucketMaxIndex]);
+            }
+            // Reset bucket
+            bucketIndexCount = 0;
+            bucketMaxIndex = i;
+        }
+
+        // Calculate local bucket maximum
+        if (fftMagnitude[bucketMaxIndex] < fftMagnitude[i])
+        {
+            bucketMaxIndex = i;
+        }
+        bucketIndexCount++; // Increment bucket count
+    }
     
-//    // Print Frequency
-//    self.loudnessLabel.text = [@(loudestFrequencyIndex / (float)FFT_SIZE * SAMPLE_RATE/2) stringValue];
+    if([self.frequency1Number floatValue] < 1.5*[self.frequency2Number floatValue])
+    {
+        if(self.frequency1Index > self.frequency2Index)
+        {
+            self.gestureLabel.text = @"gesturing away";
+        }
+        else{
+            self.gestureLabel.text = @"gesturing towards";
+        }
+    }
+    else
+    {
+        self.gestureLabel.text = @"not gesturing";
+    }
+    
+    self.frequency1Number = @(-100);
+    self.frequency2Number = @(-100);
+    self.frequency1Index = 0;
+    self.frequency2Index = 0;
+    
+    self.loudnessLabel.text = @"ERROR CHANGE";
+    
+    // Print Frequency
+//    self.loudnessLabel.text = [@(self.frequency1Index / (float)FFT_SIZE * SAMPLE_RATE/2) stringValue];
     
     // Print Loudness
-    self.loudnessLabel.text = [NSString stringWithFormat:@"%@ dB", @(20 * log10f(fabsf(fftMagnitude[loudestFrequencyIndex])))];
-    ;
+//    self.loudnessLabel.text = [NSString stringWithFormat:@"%@ dB", @(20 * log10f(fabsf(fftMagnitude[(int)self.frequency1Index])))];
     
     [self.graphHelper update]; // update the graph
     free(arrayData);

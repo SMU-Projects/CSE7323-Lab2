@@ -21,8 +21,8 @@
 
 @property (strong, nonatomic) IBOutlet NSNumber *frequency1Number;
 @property (strong, nonatomic) IBOutlet NSNumber *frequency2Number;
-@property (nonatomic) float frequency1Int; // This property functions as an integer, but is a float so that it does not need to be casted during division
-@property (nonatomic) float frequency2Int;
+@property (nonatomic) int frequency1Index;
+@property (nonatomic) int frequency2Index;
 @property (weak, nonatomic) IBOutlet UILabel *frequency1Label;
 @property (weak, nonatomic) IBOutlet UILabel *frequency2Label;
 @property (strong, nonatomic) IBOutlet NSTimer *timer;
@@ -133,18 +133,18 @@
             if ([self.frequency1Number floatValue] < fftMagnitude[bucketMaxIndex])
             {
                 // set frequency2 variables to previous frequency1 variables if the bucketMaxIndex is not too close to previous f1
-                if (!(bucketMaxIndex < (self.frequency1Int + bucketSize/2) && bucketMaxIndex > (self.frequency1Int - bucketSize/2)))
+                if (!(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
                 {
-                    self.frequency2Int = self.frequency1Int;
+                    self.frequency2Index = self.frequency1Index;
                     self.frequency2Number = @([self.frequency1Number floatValue]);
                 }
-                self.frequency1Int = bucketMaxIndex;
+                self.frequency1Index = bucketMaxIndex;
                 self.frequency1Number = @(fftMagnitude[bucketMaxIndex]);
             }
             // 2nd Loudest Frequency Evaluation; f2 cannot be too close to f1
-            else if ([self.frequency2Number floatValue] < fftMagnitude[bucketMaxIndex] && !(bucketMaxIndex < (self.frequency1Int + bucketSize/2) && bucketMaxIndex > (self.frequency1Int - bucketSize/2)))
+            else if ([self.frequency2Number floatValue] < fftMagnitude[bucketMaxIndex] && !(bucketMaxIndex < (self.frequency1Index + bucketSize/2) && bucketMaxIndex > (self.frequency1Index - bucketSize/2)))
             {
-                self.frequency2Int = bucketMaxIndex;
+                self.frequency2Index = bucketMaxIndex;
                 self.frequency2Number = @(fftMagnitude[bucketMaxIndex]);
             }
             // Reset bucket
@@ -167,8 +167,8 @@
 
 -(void) updateLabels{
     // frequency = (max index) / (fft array length) * (sampling rate)
-    self.frequency1Number = @(self.frequency1Int / (float)FFT_SIZE * SAMPLE_RATE/2);
-    self.frequency2Number = @(self.frequency2Int / (float)FFT_SIZE * SAMPLE_RATE/2);
+    self.frequency1Number = @((float)self.frequency1Index / (float)FFT_SIZE * SAMPLE_RATE/2);
+    self.frequency2Number = @((float)self.frequency2Index / (float)FFT_SIZE * SAMPLE_RATE/2);
     
     // update labels to frequency values
     self.frequency1Label.text = [NSString stringWithFormat:@"f1: %@Hz", self.frequency1Number];
