@@ -11,7 +11,7 @@
 #import <GLKit/GLKit.h>
 
 // DSPUtils Imports
-#import "AnalyzerModel.h";
+#import "AnalyzerModel.h"
 
 // Graphing Imports
 #import "SMUGraphHelper.h"

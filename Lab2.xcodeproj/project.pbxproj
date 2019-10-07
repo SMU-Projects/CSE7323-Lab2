@@ -14,6 +14,7 @@
 		B62628FF233ACB1C00F2BCD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62628FE233ACB1C00F2BCD3 /* Assets.xcassets */; };
 		B6262902233ACB1C00F2BCD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6262900233ACB1C00F2BCD3 /* LaunchScreen.storyboard */; };
 		B6262905233ACB1C00F2BCD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6262904233ACB1C00F2BCD3 /* main.m */; };
+		B64BACD3234AD65B0080F2AB /* Lab2.png in Resources */ = {isa = PBXBuildFile; fileRef = B64BACD2234AD65B0080F2AB /* Lab2.png */; };
 		B6976E132343F4420098A0CF /* ModuleAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E122343F4420098A0CF /* ModuleAViewController.m */; };
 		B6976E2B2343F7CC0098A0CF /* ModuleBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E2A2343F7CC0098A0CF /* ModuleBViewController.m */; };
 		B6976E322343FA530098A0CF /* SMUGraphHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6976E312343FA530098A0CF /* SMUGraphHelper.m */; };
@@ -36,6 +37,7 @@
 		B6262901233ACB1C00F2BCD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6262903233ACB1C00F2BCD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6262904233ACB1C00F2BCD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B64BACD2234AD65B0080F2AB /* Lab2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lab2.png; sourceTree = SOURCE_ROOT; };
 		B6976E112343F4420098A0CF /* ModuleAViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleAViewController.h; sourceTree = "<group>"; };
 		B6976E122343F4420098A0CF /* ModuleAViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModuleAViewController.m; sourceTree = "<group>"; };
 		B6976E292343F7CC0098A0CF /* ModuleBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModuleBViewController.h; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		B6976E1C2343F5410098A0CF /* Project */ = {
 			isa = PBXGroup;
 			children = (
+				B64BACD2234AD65B0080F2AB /* Lab2.png */,
 				B6262900233ACB1C00F2BCD3 /* LaunchScreen.storyboard */,
 				B62628FB233ACB1B00F2BCD3 /* Main.storyboard */,
 				B6262903233ACB1C00F2BCD3 /* Info.plist */,
@@ -192,6 +195,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B64BACD3234AD65B0080F2AB /* Lab2.png in Resources */,
 				B6262902233ACB1C00F2BCD3 /* LaunchScreen.storyboard in Resources */,
 				B62628FF233ACB1C00F2BCD3 /* Assets.xcassets in Resources */,
 				B62628FD233ACB1B00F2BCD3 /* Main.storyboard in Resources */,

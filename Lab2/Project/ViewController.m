@@ -14,9 +14,11 @@
 
 @implementation ViewController
 
+/*!
+ @brief Method call that occurs when the view has loaded
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 
