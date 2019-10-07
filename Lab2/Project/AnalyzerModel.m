@@ -151,21 +151,13 @@
     
     int lowerBounds = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:lowerFrequency];
     int upperBounds = [AnalyzerModel convertFrequencyToFftMagnitudeIndex:upperFrequency];
+
+    float maxVal = 0;
+    vDSP_maxv((self.fftData+lowerBounds), 1, &maxVal, upperBounds-lowerBounds);
+    float minVal = 0;
+    vDSP_minv(self.fftData+lowerBounds, 1, &minVal, upperBounds-lowerBounds);
     
-    float highestValue = -1000;
-    float lowestValue = 1000;
-    for (int i = lowerBounds; i < upperBounds; i++)
-    {
-        if (self.fftData[i] > highestValue)
-        {
-            highestValue = self.fftData[i];
-        }
-        if (self.fftData[i] < lowestValue)
-        {
-            lowestValue = self.fftData[i];
-        }
-    }
-    return highestValue - lowestValue;
+    return maxVal - minVal;
 }
 
 -(NSArray*) getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:(float)lowerFrequency andUpperFrequencyBounds:(float)upperFrequency usingFrequencyBucketSize:(float)frequencyBucketSize{

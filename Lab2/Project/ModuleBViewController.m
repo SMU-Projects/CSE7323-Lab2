@@ -66,8 +66,6 @@
     // take forward FFT
     [self.myAnalyzerModel performFftOnAudio];
     
-    int sampleRate = [self.myAnalyzerModel getSampleRate];
-    
     float* audioData = [self.myAnalyzerModel getAudioData];
     int audioDataSize = [self.myAnalyzerModel getAudioDataSize];
     
@@ -120,6 +118,8 @@
     self.loudnessLabel.text = [NSString stringWithFormat:@"%f dB", fftData[fftMagnitudeIndex1]];
     
 //    self.loudnessLabel.text = [NSString stringWithFormat:@"%f dB", 20*logf(fabsf(fftData[fftMagnitudeIndex1]))];
+    
+//    self.loudnessLabel.text = [NSString stringWithFormat:@"%f dB", 20*logf(fftData[fftMagnitudeIndex1])];
     
     [self.graphHelper update]; // update the graph
 }

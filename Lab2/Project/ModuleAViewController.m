@@ -99,7 +99,7 @@
                      withZeroValue:-60
      ];
     
-        NSArray* fftMagnitudeIndices = [self.myAnalyzerModel getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:0 andUpperFrequencyBounds:sampleRate/2 usingFrequencyBucketSize:50];
+    NSArray* fftMagnitudeIndices = [self.myAnalyzerModel getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:0 andUpperFrequencyBounds:sampleRate/2 usingFrequencyBucketSize:50];
 
     int newFftMagnitudeIndex1 = [[fftMagnitudeIndices objectAtIndex:0] intValue];
     int newFftMagnitudeIndex2 = [[fftMagnitudeIndices objectAtIndex:1] intValue];

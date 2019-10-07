@@ -44,8 +44,6 @@
 
 -(NSArray*) getLoudestFftMagnitudeIndicesWithLowerFrequencyBounds:(float)lowerFrequency andUpperFrequencyBounds:(float)upperFrequency usingFrequencyBucketSize:(float)frequencyBucketSize;;
 
-
-
 -(void) close;
 
 @end
