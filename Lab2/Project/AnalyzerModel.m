@@ -113,8 +113,8 @@
 }
 
 -(void)performFftOnAudio{
-    if (!self.audioData) {free(self.audioData);}
-    if (!self.fftData) {free(self.fftData);}
+    if (self.audioData) {free(self.audioData);}
+    if (self.fftData) {free(self.fftData);}
     self.audioData = malloc(sizeof(float)*BUFFER_SIZE);
     self.fftData = malloc(sizeof(float)*FFT_SIZE);
     

@@ -96,18 +96,13 @@
     
     int fftMagnitudeIndex1 = [[fftMagnitudeIndices objectAtIndex:0] intValue];
     int fftMagnitudeIndex2 = [[fftMagnitudeIndices objectAtIndex:1] intValue];
-    
-//    NSLog([NSString stringWithFormat:@"F1: %f", [AnalyzerModel convertFftMagnitudeIndexToFrequency:f1]]);
-//    NSLog([NSString stringWithFormat:@"F2: %f", [AnalyzerModel convertFftMagnitudeIndexToFrequency:f2]]);
-//
-//    NSLog([NSString stringWithFormat:@"range: %f", fftRange]);
-//
+
     float lowestFftMagnitude = fftData[fftMagnitudeIndex1] - fftRange;
-    float fftMagnitude1 = fftData[fftMagnitudeIndex1] + fabsf(lowestFftMagnitude);
     
-    float fftMagnitude2 = fftData[fftMagnitudeIndex2] + fabsf(lowestFftMagnitude);
+    float doppler1 = fftData[fftMagnitudeIndex1] + fabsf(lowestFftMagnitude);
+    float doppler2 = fftData[fftMagnitudeIndex2] + fabsf(lowestFftMagnitude);
     
-    if(fftMagnitude1 < 1.5*fftMagnitude2)
+    if(doppler1 < 1.5*doppler2)
     {
         if(fftMagnitudeIndex1 > fftMagnitudeIndex2)
         {
@@ -122,11 +117,11 @@
         self.gestureLabel.text = @"not gesturing";
     }
     
-    self.loudnessLabel.text = @"ERROR CHANGE";
+    self.loudnessLabel.text = [NSString stringWithFormat:@"%f dB", fftData[fftMagnitudeIndex1]];
+    
+//    self.loudnessLabel.text = [NSString stringWithFormat:@"%f dB", 20*logf(fabsf(fftData[fftMagnitudeIndex1]))];
     
     [self.graphHelper update]; // update the graph
-    free(audioData);
-    free(fftData);
 }
 
 //  override the GLKView draw function, from OpenGLES

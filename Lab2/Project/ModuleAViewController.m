@@ -104,9 +104,6 @@
     int newFftMagnitudeIndex1 = [[fftMagnitudeIndices objectAtIndex:0] intValue];
     int newFftMagnitudeIndex2 = [[fftMagnitudeIndices objectAtIndex:1] intValue];
     
-//    NSLog([NSString stringWithFormat:@"mag1: %i", newFftMagnitudeIndex1]);
-//    NSLog([NSString stringWithFormat:@"mag2: %i", newFftMagnitudeIndex2]);
-    
     if (fftData[newFftMagnitudeIndex1] > self.fftMagnitude1)
     {
         self.fftMagnitude1 = fftData[newFftMagnitudeIndex1];
@@ -119,8 +116,6 @@
     }
     
     [self.graphHelper update]; // update the graph
-    free(audioData);
-    free(fftData);
 }
 
 -(void) updateLabels{
@@ -132,7 +127,7 @@
     self.fftMagnitude1 = -1000;
     self.fftMagnitude2 = -1000;
     self.fftMagnitudeIndex1 = 0;
-    self.fftMagnitudeIndex2 = 100;
+    self.fftMagnitudeIndex2 = 0;
 }
 
 //  override the GLKView draw function, from OpenGLES
