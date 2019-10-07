@@ -103,7 +103,7 @@
     __block AnalyzerModel * __weak  weakSelf = self;
     
     [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels) {
-        [weakSelf.buffer addNewInterleavedFloatData:data withNumSamples:numFrames*numChannels withNumChannels:numChannels];
+        [weakSelf.buffer addNewInterleavedFloatData:data withNumSamples:numFrames withNumChannels:numChannels];
     }];
 }
 
