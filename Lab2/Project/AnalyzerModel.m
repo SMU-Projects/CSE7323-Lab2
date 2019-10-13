@@ -123,9 +123,9 @@
         // Generate a sinisoidal signal with given frequency
         __block float phase = 0.0;
         [self.audioManager setOutputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels) {
-            double phaseIncrement = 2*M_PI*[self.speakerFrequency floatValue]/SAMPLE_RATE;
+            double phaseIncrement = 2*M_PI*[self.speakerFrequency floatValue]/(float)SAMPLE_RATE;
             double sineWavePeriod = 2*M_PI;
-            for (int i=0; i < numFrames; ++i)
+            for (int i=0; i < numFrames; i++)
             {
                 for(int j=0;j<numChannels;j++)
                     data[i*numChannels+j] = 0.5*sin(phase);
